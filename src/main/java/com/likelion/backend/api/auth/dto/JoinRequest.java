@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Size;
 public record JoinRequest(
         @NotBlank(message = "이메일은 필수 입력 항목입니다.")
         @Email(message = "이메일 형식이 올바르지 않습니다.")
-        String email, // 로그인 및 계정 식별용 [cite: 160]
+        String email, // 로그인 및 계정 식별용
 
         @NotBlank(message = "비밀번호는 필수 입력 항목입니다.")
         @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d).{8,}$",
