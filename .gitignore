@@ -1,6 +1,10 @@
 HELP.md
 .gradle
 build/
+/build/
+libs/
+*.jar
+
 !gradle/wrapper/gradle-wrapper.jar
 !**/src/main/**/build/
 !**/src/test/**/build/
@@ -36,5 +40,13 @@ out/
 ### VS Code ###
 .vscode/
 
-### application.yml ###
-**/application-local.yml
+### OS 임시 파일 ###
+.DS_Store
+Thumbs.db
+
+### local.yaml ###
+src/main/resources/application-local.yml
+
+# DB 데이터 폴더 및 환경변수 파일 무시
+mysql_data/
+.env

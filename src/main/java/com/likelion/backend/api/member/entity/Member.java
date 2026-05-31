@@ -1,41 +1,43 @@
 package com.likelion.backend.api.member.entity;
 
-import com.likelion.backend.global.entity.BaseTimeEntity;
 import jakarta.persistence.*;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-
+import lombok.*;
 import java.time.LocalDateTime;
 
 @Entity
 @Getter
-@Table(name = "member")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Member extends BaseTimeEntity {
+@Table(name = "members")
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;                        // 회원 ID (PK)
+    private Long id;
 
-    @Column(nullable = false, unique = true, length = 100)
-    private String email;                   // 이메일
-
-    @Column(nullable = false, length = 255)
-    private String password;                // 비밀번호
-
-    @Column(nullable = false, length = 20)
-    private String name;                    // 본명
-
-    @Column(nullable = false, length = 20)
-    private String department;              // 학과
+    @Column(nullable = false, unique = true)
+    private String email; // 로그인 및 계정 식별용 이메일
 
     @Column(nullable = false)
-    private boolean isDeleted;              // 삭제 여부
+    private String password; // 암호화된 비밀번호
 
-    private LocalDateTime deletedAt;        // 삭제 날짜
+    @Column(nullable = false)
+    private String name; // 사용자 본명
+
+    @Column(nullable = false)
+    private String nickname; // 서비스 내 별명
 
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private Role role;                      // 권한
+    private Role role; // 권한 (USER/ADMIN)
+
+    private LocalDateTime createdAt; // 계정 생성일시
+
+    @Builder
+    public Member(String email, String password, String name, String nickname, Role role) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
+        this.nickname = nickname;
+        this.role = (role != null) ? role : Role.USER;
+        this.createdAt = LocalDateTime.now();
+    }
 }

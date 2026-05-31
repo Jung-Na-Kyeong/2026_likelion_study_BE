@@ -1,26 +1,34 @@
 package com.likelion.backend.global.config.swagger;
 
-import io.swagger.v3.oas.annotations.OpenAPIDefinition;
-import io.swagger.v3.oas.annotations.info.Info;
-import io.swagger.v3.oas.annotations.servers.Server;
+import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.info.Info;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
+import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-@OpenAPIDefinition(
-        info = @Info(title = "멋사 충북대 백엔드 세션 API", description = "멋쟁이사자처럼 충북대 백엔드 세션 베이스 API입니다.",
-                version = "1.0.0"),
-        servers = {
-                @Server(url = "http://localhost:8080", description = "로컬 서버"),
-                @Server(url = "추후 변경", description = "배포 서버")
-        }
-)
 @Configuration
 public class SwaggerConfig {
 
     @Bean
     public OpenAPI openAPI() {
+        // Swagger UI에서 JWT 토큰을 입력할 수 있도록 보안 스키마 설정
+        String securitySchemeName = "Bearer Auth";
+        SecurityRequirement securityRequirement = new SecurityRequirement().addList(securitySchemeName);
+        Components components = new Components()
+                .addSecuritySchemes(securitySchemeName, new SecurityScheme()
+                        .name(securitySchemeName)
+                        .type(SecurityScheme.Type.HTTP)
+                        .scheme("bearer")
+                        .bearerFormat("JWT"));
 
-        return new OpenAPI();
+        return new OpenAPI()
+                .info(new Info()
+                        .title("Likelion Week 8 Member System API")
+                        .description("회원 관리 및 인증 시스템 API 명세서")
+                        .version("1.0.0"))
+                .addSecurityItem(securityRequirement)
+                .components(components);
     }
 }

@@ -1,12 +1,14 @@
 spring:
+  config:
+    import: optional:file:.env[.properties]   # .env 파일 연결
   application:
     name: backend
 
-# 프로파일 세팅
+  # 프로파일 세팅
   profiles:
-    active: ${SPRING_PROFILES_ACTIVE:local}   # 기본 활성 프로파일 (application-local.yml 사용)
+    active: ${SPRING_PROFILES_ACTIVE:local}
 
-# JPA 세팅
+  # JPA 세팅
   jpa:
     hibernate:
       ddl-auto: create            # 필요 시 수정
@@ -42,3 +44,10 @@ springdoc:
     try-it-out-enabled: true
     persist-authorization: true
   show-actuator: true
+
+jwt:
+  secret: ${JWT_SECRET}
+  expiration: ${JWT_EXPIRATION}
+
+cors:
+  allowed-origin: ${FRONT_URL}
